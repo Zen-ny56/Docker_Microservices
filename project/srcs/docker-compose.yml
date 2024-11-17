@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  # Nginx service
+  nginx:
+    # Build the Docker image from the Nginx Dockerfile in requirements/nginx/
+    image: nginx
+    build:
+      context: .
+      dockerfile: requirements/nginx/Dockerfile
+    # Set a container name
+    container_name: nginx
+    # Depend on the WordPress service being up and running
+    depends_on:
+      - wordpress
+    # Publish port 443 on the host to port 443 in the container
+    ports:
+      - "443:443"
+    # Attach to the inception network
+    networks:
+      - inception
+    # Mount local directories as volumes in the container
+    volumes:
+      - wp-volume:/var/www/
+    # Always restart the container if it stops
+    restart: on-failure
