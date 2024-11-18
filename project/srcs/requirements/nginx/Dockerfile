@@ -4,7 +4,7 @@ FROM alpine:3.19
 RUN apk update && apk upgrade && apk add --no-cache nginx
 
 # Copy Nginx configuration file
-COPY ./requirements/nginx/conf/nginx.conf /etc/nginx/http.d/nginx.conf
+COPY ./conf/nginx.conf /etc/nginx/http.d/nginx.conf
 
 # Update package repositories and install necessary utilities
 RUN apk update && apk add --no-cache wget curl openssl
@@ -19,9 +19,9 @@ RUN curl -s https://api.github.com/repos/FiloSottile/mkcert/releases/latest \
     && mv mkcert-v*-linux-amd64 mkcert \
     && chmod a+x mkcert
 # Generate SSL certificates using mkcert
-RUN ./mkcert cegbulef.42.fr \
-    && mv cegbulef.42.fr-key.pem cegbulef.42.fr.key \
-    && mv cegbulef.42.fr.pem cegbulef.42.fr.crt \
+RUN ./mkcert naadam.42.fr \
+    && mv naadam.42.fr-key.pem naadam.42.fr.key \
+    && mv naadam.42.fr.pem naadam.42.fr.crt \
     && rm mkcert
 # Change back to the previous working directory
 WORKDIR /
@@ -33,8 +33,8 @@ RUN chmod 644 /etc/nginx/http.d/nginx.conf
 RUN chown -R nginx:nginx /etc/nginx/http.d
 
 # Set file permissions for SSL keys
-RUN chmod 600 /etc/nginx/ssl/cegbulef.42.fr.crt
-RUN chmod 600 /etc/nginx/ssl/cegbulef.42.fr.key
+RUN chmod 600 /etc/nginx/ssl/naadam.42.fr.crt
+RUN chmod 600 /etc/nginx/ssl/naadam.42.fr.key
 
 # Set ownership to the Nginx user and group
 RUN chown -R nginx:nginx /etc/nginx/http.d /etc/nginx/ssl
