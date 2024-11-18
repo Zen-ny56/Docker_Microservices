@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.19
 
 # Update package repositories, upgrade installed packages, and install NGINX
 RUN apk update && apk upgrade && apk add --no-cache nginx
