@@ -1,5 +1,7 @@
 FROM alpine:3.19
 
+USER root
+
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache bash mariadb mariadb-client gettext && \
