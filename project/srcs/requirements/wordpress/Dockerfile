@@ -1,6 +1,6 @@
 FROM alpine:3.19
 
-USER root
+#USER root
 
 ARG PHP_VERSION=82 \
     DB_NAME \

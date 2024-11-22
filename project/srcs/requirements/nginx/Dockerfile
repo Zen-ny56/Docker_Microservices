@@ -1,6 +1,6 @@
 FROM alpine:3.19
 
-USER root
+#USER root
 # Update package repositories, upgrade installed packages, and install NGINX
 RUN apk update && apk upgrade && apk add --no-cache nginx
 

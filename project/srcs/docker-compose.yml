@@ -1,24 +1,80 @@
 services:
   # Nginx service
   nginx:
-    # Build the Docker image from the Nginx Dockerfile in requirements/nginx/
-    image: nginx
-    build:
-      context: .
-      dockerfile: requirements/nginx/Dockerfile
-    # Set a container name
     container_name: nginx
-    # Depend on the WordPress service being up and running
+    build:
+      context: ./requirements/nginx/
+      dockerfile: Dockerfile
     depends_on:
       - wordpress
-    # Publish port 443 on the host to port 443 in the container
     ports:
       - "443:443"
-    # Attach to the inception network
     networks:
       - inception-network
-    # Mount local directories as volumes in the container
     volumes:
       - wp-volume:/var/www/
-    # Always restart the container if it stops
-    restart: on-failure
+    restart: always
+
+  #Wordpress service
+  wordpress:
+    container_name: wordpress
+    build:
+      context: ./requirements/wordpress/
+      dockerfile: Dockerfile
+      args:
+
+        DB_NAME: ${DB_NAME}
+        DB_USER: ${DB_USER}
+        DB_PASS: ${DB_PASS}
+    depends_on:
+      - mariadb
+    restart: always
+    volumes:
+      - wp-volume:/var/www/
+    networks:
+      - inception-network
+    env_file:
+      - .env
+    expose:
+      - "9000"
+
+
+  #MariaDB service
+    mariadb:
+    container_name: mariadb
+    build:
+      context: ./requirements/mariadb/
+      dockerfile: Dockerfile
+      args:
+        DB_NAME: ${DB_NAME}
+        DB_USER: ${DB_USER}
+        DB_PASS: ${DB_PASS}
+        DB_ROOT: ${DB_ROOT}
+    volumes:
+      - db-volume:/var/lib/mysql
+    restart: always
+    networks:
+      - inception-network
+    expose:
+      - "3306"
+    env_file:
+      - .env
+
+#Volumes
+volumes:
+  wp-volume:
+    driver_opts:
+      o: 'bind'
+      type: 'none'
+      device: '/home/naadam/data/wordpress_vol'
+
+  db-volume:
+    driver_opts:
+      o: 'bind'
+      type: 'none'
+      device: '/home/naadam/data/mariadb_vol'
+
+networks:
+    inception-network:
+      driver: bridge
+

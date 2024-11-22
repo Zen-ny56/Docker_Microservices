@@ -4,7 +4,7 @@ wp core download --allow-root --locale=en_US
 
 if [ ! -f "/var/www/wp-config.php" ]; then
 
-	wp config create --allow-root --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASS --dbhost=mariadb --dbcharset="utf8" 
+wp config create --allow-root --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASS --dbhost=mariadb --dbcharset="utf8" 
 fi
 
 wp core install  --allow-root \
