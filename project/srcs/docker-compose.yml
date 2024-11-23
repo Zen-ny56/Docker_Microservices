@@ -1,5 +1,4 @@
 services:
-  # Nginx service
   nginx:
     container_name: nginx
     build:
@@ -15,14 +14,12 @@ services:
       - wp-volume:/var/www/
     restart: always
 
-  #Wordpress service
   wordpress:
     container_name: wordpress
     build:
       context: ./requirements/wordpress/
       dockerfile: Dockerfile
       args:
-
         DB_NAME: ${DB_NAME}
         DB_USER: ${DB_USER}
         DB_PASS: ${DB_PASS}
@@ -38,9 +35,7 @@ services:
     expose:
       - "9000"
 
-
-  #MariaDB service
-    mariadb:
+  mariadb:
     container_name: mariadb
     build:
       context: ./requirements/mariadb/
@@ -60,7 +55,6 @@ services:
     env_file:
       - .env
 
-#Volumes
 volumes:
   wp-volume:
     driver_opts:
@@ -77,4 +71,3 @@ volumes:
 networks:
     inception-network:
       driver: bridge
-
