@@ -1,6 +1,6 @@
 🐳 Inception
 
-Inception is a web infrastructure project built with Docker, as part of the 42 curriculum, where you create a secure, containerized environment running WordPress, MariaDB, and Nginx with HTTPS support via mkcert.
+Inception is a web infrastructure project built with Docker, where you create a secure, containerized environment running WordPress, MariaDB, and Nginx with HTTPS support via mkcert.
 
 📦 Overview
 
